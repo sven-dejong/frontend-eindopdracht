@@ -7,28 +7,18 @@ import Login from "./pages/Login/Login.jsx"
 import Register from "./pages/Register/Register.jsx"
 import NotFound from "./pages/NotFound/NotFound.jsx"
 import Button from "./components/ui/Button/Button.jsx";
+import SearchBar from "./components/ui/SearchBar/SearchBar.jsx";
 
 function App() {
-
-    const [searchQuery, setSearchQuery] = useState("");
-
-    const handleSearch = (event) => {
-        setSearchQuery(event.target.value);
-        console.log("Zoekterm:", event.target.value); // Check de zoekwaarde in de console
-    };
 
     return (
         <>
             <nav className="main-navigation outer-content-container">
                 <div className="inner-nav-container">
+                    <div className="nav-home">
                     <Link to="/">ParkPal</Link>
-                    <input
-                        type="text"
-                        placeholder="Zoek een park..."
-                        value={searchQuery}
-                        onChange={handleSearch}
-                        className="search-bar"
-                    />
+                    </div>
+                   <SearchBar />
                     <ul className="main-navigation-links">
                         <Button className="primary">
                             <NavLink to="/all-parks"
@@ -59,7 +49,7 @@ function App() {
                     <Route path="*" element={<NotFound/>}/>
                 </Routes>
             </main>
-            <footer className="footer-navigation outer-content-container">
+            <footer className="footer-navigation">
                 ParkPal
             </footer>
         </>

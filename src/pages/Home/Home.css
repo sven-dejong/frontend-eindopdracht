@@ -1,0 +1,7 @@
+.home-page {
+    background-image: url("/public/home-background.webp");
+    opacity: 70%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
