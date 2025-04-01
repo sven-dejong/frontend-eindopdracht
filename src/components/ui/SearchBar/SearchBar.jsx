@@ -15,7 +15,7 @@ function SearchBar() {
             <div className="search-container">
                 <input
                     type="text"
-                    placeholder="Search by park, state, ZIP-code..."
+                    placeholder="Search by park, state or ZIP-code"
                     value={searchQuery}
                     onChange={handleSearch}
                     className="search-bar"/>

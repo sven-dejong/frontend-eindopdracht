@@ -1,5 +1,4 @@
 import "./Home.css"
-import HomeBackground from "/public/home-background.webp"
 import SearchBar from "../../components/ui/SearchBar/SearchBar.jsx";
 
 function Home() {
@@ -8,7 +7,7 @@ function Home() {
             <section className="outer-content-container home-page">
                 <div className="inner-content-container">
                     <h1>ParkPal</h1>
-                    <p>Home</p>
+                    <p>Find your favorite park by searching below</p>
                     <SearchBar/>
                 </div>
             </section>

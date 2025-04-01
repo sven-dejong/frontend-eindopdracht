@@ -1,0 +1,12 @@
+.footer-navigation {
+    font-family: 'Figtree', sans-serif;
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    text-align: center;
+    padding: 20px 0;
+    font-weight: 600;
+}
+
+footer {
+    margin-top: auto;
+}
