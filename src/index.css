@@ -41,11 +41,12 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
-  color: var(--color-secondary);
+  color: var(--color-black);
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Figtree', sans-serif;
+  color: var(--color-tertiary);
 }
 
 h1 {
@@ -53,21 +54,8 @@ h1 {
   line-height: 1.1;
 }
 
-h2 {
-  margin-block: 2.3em;
-}
-
-h3 {
-  margin-block: 1.6em;
-}
-
-h4 {
-  margin-block: 1.33em;
-}
-
 p {
-  font-size: 1.2em;
-  margin-block: 0.5em;
+  font-size: 1em;
 }
 
 img {
@@ -78,8 +66,6 @@ a:hover {
   text-decoration: none;
 }
 
-/*----------- INNER- EN OUTER CONTAINERS ------------------- */
-
 .outer-content-container {
   width: 100%;
   display: flex;
@@ -87,7 +73,6 @@ a:hover {
   justify-content: center;
 }
 
-/* Brede inner container*/
 .inner-content-container {
   flex-basis: 1400px;
   flex-shrink: 1;
@@ -95,7 +80,6 @@ a:hover {
   align-items: center;
 }
 
-/* Smalle inner container voor tekst etc. */
 .inner-content-container__text-restriction {
   flex-basis: 1000px;
   flex-shrink: 1;

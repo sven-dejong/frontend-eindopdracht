@@ -1,0 +1,16 @@
+.park-description p {
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.park-description h2 {
+    margin-bottom: 1rem;
+}
+
+.directions-info {
+    margin-top: 2rem;
+}
+
+.directions-info h3 {
+    margin-bottom: 0.75rem;
+}

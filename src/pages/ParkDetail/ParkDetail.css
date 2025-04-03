@@ -1,0 +1,61 @@
+.park-detail {
+    padding: 2rem 0;
+}
+
+.park-info-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+/*.website-link {
+    display: inline-block;
+    color: var(--color-white);
+    font-weight: 600;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    background-color: var(--color-tertiary);
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.website-link:hover {
+    background-color: var(--color-secondary);
+}*/
+
+.park-detail.loading,
+.park-detail.error {
+    min-height: 50vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.park-detail.error p {
+    margin: 1rem 0 2rem;
+}
+
+.back-to-top-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+@media (max-width: 900px) {
+    .park-info-grid {
+        grid-template-columns: 1fr;
+    }
+    .back-to-top-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 3rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .park-detail {
+        padding: 1rem 0;
+    }
+}
