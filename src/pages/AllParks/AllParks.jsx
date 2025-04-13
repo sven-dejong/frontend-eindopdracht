@@ -13,6 +13,7 @@ function AllParks() {
     const parksPerPage = 20;
 
     useEffect(() => {
+
         // Fetch parks data when component mounts or page changes
         fetchParks(currentPage);
     }, [currentPage]);
@@ -31,7 +32,7 @@ function AllParks() {
                 {
                     headers: {
                         'accept': 'application/json',
-                    }
+                    },
                 }
             );
 

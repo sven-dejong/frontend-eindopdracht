@@ -17,36 +17,68 @@ function ParkDetail() {
     const [error, setError] = useState(false);
 
     useEffect(() => {
-        fetchParkDetail(id);
-    }, [id]);
+        // Create an AbortController for canceling the fetch request
+        const abortController = new AbortController();
+        let isMounted = true;
 
-    async function fetchParkDetail(parkCode) {
-        try {
-            setLoading(true);
-            setError(false);
-
-            const response = await axios.get(
-                `https://developer.nps.gov/api/v1/parks?parkCode=${parkCode}&api_key=${import.meta.env.VITE_API_KEY}`,
-                {
-                    headers: {
-                        'accept': 'application/json',
-                    }
+        async function fetchParkDetail(parkCode) {
+            try {
+                if (isMounted) {
+                    setLoading(true);
+                    setError(false);
                 }
-            );
 
-            if (response.data.data && response.data.data.length > 0) {
-                setPark(response.data.data[0]);
-            } else {
-                // No park found with this code
-                setError(true);
+                const response = await axios.get(
+                    `https://developer.nps.gov/api/v1/parks?parkCode=${parkCode}&api_key=${import.meta.env.VITE_API_KEY}`,
+                    {
+                        headers: {
+                            'accept': 'application/json',
+                        },
+                        signal: abortController.signal // Connect abort controller to the request
+                    }
+                );
+
+                // Only update state if component is still mounted
+                if (isMounted) {
+                    if (response.data.data && response.data.data.length > 0) {
+                        setPark(response.data.data[0]);
+                    } else {
+                        // No park found with this code
+                        setError(true);
+                    }
+                    setLoading(false);
+                }
+            } catch (err) {
+                // Only update error state if this isn't an abort error and component is mounted
+                if (err.name !== 'CanceledError' && isMounted) {
+                    console.error("Error fetching park details:", err);
+                    setError(true);
+                    setLoading(false);
+                }
             }
-        } catch (err) {
-            console.error("Error fetching park details:", err);
-            setError(true);
-        } finally {
-            setLoading(false);
         }
-    }
+
+        fetchParkDetail(id);
+
+        // Add event listener for the "Back to Top" functionality
+        const backToTopButton = document.querySelector(".back-to-top-container button");
+        const handleBackToTop = () => window.scrollTo({top: 0, behavior: 'smooth'});
+
+        if (backToTopButton) {
+            backToTopButton.addEventListener("click", handleBackToTop);
+        }
+
+        // Cleanup function that runs when component unmounts or dependencies change
+        return () => {
+            isMounted = false;
+            abortController.abort(); // Cancel any pending requests
+
+            // Remove the event listener if it was added
+            if (backToTopButton) {
+                backToTopButton.removeEventListener("click", handleBackToTop);
+            }
+        };
+    }, [id]);
 
     if (loading) {
         return (

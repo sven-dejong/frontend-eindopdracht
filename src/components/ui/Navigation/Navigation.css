@@ -75,7 +75,7 @@
 /* Style the SearchBar to match the transparent theme */
 .main-navigation .search-bar-container {
     flex-grow: 1;
-    max-width: 500px;
+    /*max-width: 500px;*/
 }
 
 .main-navigation .search-bar-container input {

@@ -1,13 +1,18 @@
 import "./SearchBar.css"
 import React, {useState} from 'react'
 import SearchIcon from "../../../assets/search-icon.png";
+import {useNavigate} from "react-router-dom";
 
 function SearchBar() {
     const [searchQuery, setSearchQuery] = useState("");
+    const navigate = useNavigate();
 
-    const handleSearch = (event) => {
-        setSearchQuery(event.target.value);
-        console.log("Zoekterm:", event.target.value); // Check de zoekwaarde in de console
+    const handleSearch = (e) => {
+        e.preventDefault();
+
+        if (searchQuery.trim()) {
+            navigate(`/search?term=${encodeURIComponent(searchQuery)}`);
+        }
     };
 
     return (
@@ -15,9 +20,9 @@ function SearchBar() {
             <div className="search-container">
                 <input
                     type="text"
-                    placeholder="Search by park, state or ZIP-code"
+                    placeholder="Search by park name or state"
                     value={searchQuery}
-                    onChange={handleSearch}
+                    onChange={(e) => setSearchQuery(e.target.value)}
                     className="search-bar"/>
                 <img src={SearchIcon} alt="Search icon" className="search-icon" onClick={handleSearch}/>
             </div>

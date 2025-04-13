@@ -3,6 +3,7 @@ import './App.css'
 import {Route, Routes} from "react-router-dom";
 import Home from "./pages/Home/Home.jsx"
 import AllParks from "./pages/AllParks/AllParks.jsx"
+import SearchResults from "./pages/SearchResults/SearchResults.jsx"
 import Login from "./pages/Login/Login.jsx"
 import Register from "./pages/Register/Register.jsx"
 import NotFound from "./pages/NotFound/NotFound.jsx"
@@ -21,6 +22,7 @@ function App() {
                     <Route path="/" element={<Home/>}/>
                     <Route path="/all-parks" element={<AllParks/>}/>
                     <Route path="/park/:id" element={<ParkDetail/>}/>
+                    <Route path="/search" element={<SearchResults/>}/>
                     <Route path="/login" element={<Login/>}/>
                     <Route path="/register" element={<Register/>}/>
                     <Route path="*" element={<NotFound/>}/>
