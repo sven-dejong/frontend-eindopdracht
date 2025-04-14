@@ -5,7 +5,7 @@ function ParkCard({ parkData }) {
     const image = parkData?.images?.[0]?.url
 
     return (
-        <Link to={`/park/${parkData.parkCode}`} className="park-card-link">
+        <Link to={`/parks/${parkData.parkCode}`} className="park-card-link">
             <div className="park-card">
                 <div className="park-image">
                     <img src={image} alt={parkData.name} />

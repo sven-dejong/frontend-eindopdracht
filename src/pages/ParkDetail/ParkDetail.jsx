@@ -17,7 +17,6 @@ function ParkDetail() {
     const [error, setError] = useState(false);
 
     useEffect(() => {
-        // Create an AbortController for canceling the fetch request
         const abortController = new AbortController();
         let isMounted = true;
 
@@ -34,22 +33,19 @@ function ParkDetail() {
                         headers: {
                             'accept': 'application/json',
                         },
-                        signal: abortController.signal // Connect abort controller to the request
+                        signal: abortController.signal
                     }
                 );
 
-                // Only update state if component is still mounted
                 if (isMounted) {
                     if (response.data.data && response.data.data.length > 0) {
                         setPark(response.data.data[0]);
                     } else {
-                        // No park found with this code
                         setError(true);
                     }
                     setLoading(false);
                 }
             } catch (err) {
-                // Only update error state if this isn't an abort error and component is mounted
                 if (err.name !== 'CanceledError' && isMounted) {
                     console.error("Error fetching park details:", err);
                     setError(true);
@@ -60,7 +56,6 @@ function ParkDetail() {
 
         fetchParkDetail(id);
 
-        // Add event listener for the "Back to Top" functionality
         const backToTopButton = document.querySelector(".back-to-top-container button");
         const handleBackToTop = () => window.scrollTo({top: 0, behavior: 'smooth'});
 
@@ -68,12 +63,10 @@ function ParkDetail() {
             backToTopButton.addEventListener("click", handleBackToTop);
         }
 
-        // Cleanup function that runs when component unmounts or dependencies change
         return () => {
             isMounted = false;
-            abortController.abort(); // Cancel any pending requests
+            abortController.abort();
 
-            // Remove the event listener if it was added
             if (backToTopButton) {
                 backToTopButton.removeEventListener("click", handleBackToTop);
             }
@@ -83,8 +76,11 @@ function ParkDetail() {
     if (loading) {
         return (
             <section className="outer-content-container">
-                <div className="inner-content-container park-detail loading">
-                    <h2>Loading...</h2>
+                <div className="centered-loading">
+                        <span className="loading-message">
+                            <span className="loading-spinner"></span>
+                            Loading...
+                        </span>
                 </div>
             </section>
         );
@@ -124,7 +120,7 @@ function ParkDetail() {
                                 <Button
                                     onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}
                                     className="primary"
-                                >Back to Top ↑
+                                >Back to Top
                                 </Button>
                             </div>
                         </div>

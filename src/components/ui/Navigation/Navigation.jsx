@@ -21,7 +21,7 @@ function Navigation() {
                 <SearchBar />
                 <ul className="main-navigation-links">
                     <Button className="primary">
-                        <NavLink to="/all-parks"
+                        <NavLink to="/parks"
                                  className={({isActive}) => isActive ? "active-link" : "default-link"}>
                             All Parks
                         </NavLink>

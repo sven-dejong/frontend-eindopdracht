@@ -18,7 +18,6 @@
     margin-top: 2rem;
 }
 
-/* Pagination controls */
 .pagination-controls {
     display: flex;
     justify-content: center;
@@ -53,7 +52,6 @@
     color: #555;
 }
 
-/* Loading indicator */
 .loading-indicator {
     text-align: center;
     margin-top: 2rem;
@@ -61,7 +59,6 @@
     font-style: italic;
 }
 
-/* Add this if you want to ensure consistent card heights */
 .park-card {
     height: 100%;
     display: flex;
@@ -107,7 +104,6 @@
     margin: 0.25rem 0;
 }
 
-/* Responsive styling */
 @media (max-width: 768px) {
     .parks-container {
         grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -121,6 +117,63 @@
     .pagination-info {
         margin: 0 1rem;
     }
+}
+
+.filter-results-count {
+    margin: 0 0 1.5rem;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.centered-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+}
+
+.loading-message {
+    display: flex;
+    align-items: center;
+    color: var(--color-tertiary);
+    font-weight: 500;
+}
+
+.loading-spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    border: 2px solid rgba(60, 122, 84, 0.3);
+    border-radius: 50%;
+    border-top-color: var(--color-tertiary);
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.loading-indicator {
+    text-align: center;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading-indicator::before {
+    content: "";
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    border: 2px solid rgba(60, 122, 84, 0.3);
+    border-radius: 50%;
+    border-top-color: var(--color-tertiary);
+    animation: spin 1s linear infinite;
 }
 
 @media (max-width: 480px) {

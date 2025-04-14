@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import ParkCard from '../../components/ui/ParkCard/ParkCard';
+import Pagination from '../../components/ui/Pagination/Pagination';
 import './SearchResults.css';
-import Button from "../../components/ui/Button/Button.jsx";
 
 function SearchResults() {
     const [searchParams] = useSearchParams();
@@ -16,9 +16,7 @@ function SearchResults() {
     const [totalParks, setTotalParks] = useState(0);
     const parksPerPage = 20;
 
-    // Fetch parks data based on search term
     useEffect(() => {
-
         const abortController = new AbortController();
         let isMounted = true;
 
@@ -27,10 +25,8 @@ function SearchResults() {
                 setLoading(true);
                 setError(null);
 
-                // Calculate start index based on current page
                 const start = (currentPage - 1) * parksPerPage;
 
-                // Use the search term in the API query if provided
                 const queryParam = searchTerm ? `&q=${encodeURIComponent(searchTerm)}` : '';
 
                 const response = await axios.get(
@@ -43,15 +39,12 @@ function SearchResults() {
                     }
                 );
                 if (isMounted) {
-                    // NPS API returns data in a 'data' property
                     setParks(response.data.data || []);
 
-                    // Set total count from the API response
                     setTotalParks(response.data.total || 0);
                     setLoading(false);
                 }
             } catch (err) {
-                // Only update error state if this isn't an abort error and component is mounted
                 if (err.name !== 'CanceledError' && isMounted) {
                     console.error('API Error:', err);
                     setError(
@@ -66,28 +59,13 @@ function SearchResults() {
         fetchParks();
         return () => {
             isMounted = false;
-            abortController.abort(); // Cancel any pending requests
+            abortController.abort();
         };
-    }, [searchTerm, currentPage]); // Re-fetch when search term or page changes
-    // Handle page navigation
-    const goToNextPage = () => {
-        if (currentPage * parksPerPage < totalParks) {
-            setCurrentPage(currentPage + 1);
-            // Scroll to top of the page
-            window.scrollTo(0, 0);
-        }
-    };
+    }, [searchTerm, currentPage]);
 
-    const goToPrevPage = () => {
-        if (currentPage > 1) {
-            setCurrentPage(currentPage - 1);
-            // Scroll to top of the page
-            window.scrollTo(0, 0);
-        }
+    const handlePageChange = (newPage) => {
+        setCurrentPage(newPage);
     };
-
-    // Calculate total pages
-    const totalPages = Math.ceil(totalParks / parksPerPage);
 
     if (loading && parks.length === 0) {
         return (
@@ -104,7 +82,7 @@ function SearchResults() {
         return (
             <section className="outer-content-container">
                 <div className="inner-content-container all-parks">
-                    <h1>Search Results</h1>
+                    <h1>Search results</h1>
                     <p>Error loading parks. Please try again later.</p>
                 </div>
             </section>
@@ -135,27 +113,13 @@ function SearchResults() {
                                 <div className="loading-indicator">Loading more parks...</div>
                             )}
 
-                            <div className="pagination-controls">
-                                <Button
-                                    onClick={goToPrevPage}
-                                    disabled={currentPage === 1}
-                                    className={currentPage === 1 ? "disabled" : ""}
-                                >
-                                    Previous
-                                </Button>
-
-                                <span className="pagination-info">
-                                    Page {currentPage} of {totalPages}
-                                </span>
-
-                                <Button
-                                    onClick={goToNextPage}
-                                    disabled={currentPage * parksPerPage >= totalParks}
-                                    className={currentPage * parksPerPage >= totalParks ? "disabled" : ""}
-                                >
-                                    Next
-                                </Button>
-                            </div>
+                            <Pagination
+                                currentPage={currentPage}
+                                totalItems={totalParks}
+                                itemsPerPage={parksPerPage}
+                                onPageChange={handlePageChange}
+                                scrollToTop={true}
+                            />
                         </>
                     )}
                 </div>

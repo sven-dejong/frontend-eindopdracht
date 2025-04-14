@@ -18,7 +18,7 @@ function ParkDescription({park}) {
             )}
             <BackButton
                 className="primary">
-                Back to All Parks
+                Back to overview
             </BackButton>
         </div>
     )

@@ -10,11 +10,6 @@ function Button({
                     fullWidth = false,
                     disabled = false,
                     onClick,
-                    // Link props
-                    href,
-                    target,
-                    rel,
-                    asLink = false
                 }) {
     // Build the complete class string
     const buttonClasses = [

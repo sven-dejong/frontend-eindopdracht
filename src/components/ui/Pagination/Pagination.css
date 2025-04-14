@@ -1,0 +1,17 @@
+.pagination-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2rem 0;
+    gap: 1rem;
+}
+
+.pagination-info {
+    font-size: 0.9rem;
+    margin: 0 0.5rem;
+}
+
+.pagination-controls button.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

@@ -10,7 +10,7 @@
     font-size: 1rem;
 }
 
-.button {
+.button.primary {
     background-color: var(--color-tertiary);
     color: white;
     border: 2px solid var(--color-secondary);

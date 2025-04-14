@@ -13,7 +13,6 @@ function BackButton({
                     }) {
     const navigate = useNavigate();
 
-    // Function to go back
     const goBack = () => {
         navigate(-1);
     };

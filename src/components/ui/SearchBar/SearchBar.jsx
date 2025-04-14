@@ -12,20 +12,27 @@ function SearchBar() {
 
         if (searchQuery.trim()) {
             navigate(`/search?term=${encodeURIComponent(searchQuery)}`);
+
+            setSearchQuery("");
         }
     };
 
     return (
         <>
-            <div className="search-container">
+            <form onSubmit={handleSearch} className="search-container">
                 <input
                     type="text"
                     placeholder="Search by park name or state"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="search-bar"/>
-                <img src={SearchIcon} alt="Search icon" className="search-icon" onClick={handleSearch}/>
-            </div>
+                <img
+                    src={SearchIcon}
+                    alt="Search icon"
+                    className="search-icon"
+                    onClick={handleSearch}
+                />
+            </form>
         </>
     )
 }
