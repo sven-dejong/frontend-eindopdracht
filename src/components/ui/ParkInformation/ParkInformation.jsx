@@ -12,19 +12,32 @@ function ParkInformation({ parkData }) {
                         <p>{parkData.states}</p>
                     </li>
 
-                    {parkData.entranceFees && parkData.entranceFees.length > 0 && (
-                        <li>
-                            <strong>Entrance fee:</strong>
-                            <p>${parkData.entranceFees[0].cost}</p>
-                        </li>
+                    <li>
+                        <strong>Entrance fee:</strong>
+                        {parkData.entranceFees && parkData.entranceFees.length > 0 ? (
+                            <div className="fee-options">
+                                <p className="main-fee">
+                                    {parkData.entranceFees.find(fee => fee.title.includes("Private Vehicle")) ?
+                                        `$${parkData.entranceFees.find(fee => fee.title.includes("Private Vehicle")).cost} per vehicle` :
+                                        parkData.entranceFees.find(fee => parseFloat(fee.cost) > 0) ?
+                                            `$${parkData.entranceFees.find(fee => parseFloat(fee.cost) > 0).cost}` : "Free"}
+                                </p>
+                                <details>
+                                    <summary>View all entrance fee options</summary>
+                                    <ul className="fee-details">
+                                        {parkData.entranceFees.map((fee, index) => (
+                                            <li key={index} className="fee-item">
+                                                <strong>{fee.title}:</strong> {parseFloat(fee.cost) > 0 ? `$${fee.cost}` : "Free"}
+                                                <p className="fee-description">{fee.description}</p>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </details>
+                            </div>
+                        ) : (
+                            <p>Free</p>
                         )}
-
-                    {parkData.entranceFees && parkData.entranceFees.length > 0 && (
-                        <li>
-                                <strong>Fee description:</strong>
-                                <p>{parkData.entranceFees[0].description}</p>
-                        </li>
-                    )}
+                    </li>
 
                     {parkData.operatingHours && parkData.operatingHours.length > 0 && (
                         <li>

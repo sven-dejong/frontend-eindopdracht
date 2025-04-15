@@ -72,7 +72,12 @@ function SearchResults() {
             <section className="outer-content-container">
                 <div className="inner-content-container all-parks">
                     <h1>Search Results</h1>
-                    <p>Loading...</p>
+                    <div className="centered-loading">
+                        <span className="loading-message">
+                            <span className="loading-spinner"></span>
+                            Searching parks...
+                        </span>
+                    </div>
                 </div>
             </section>
         );

@@ -2,32 +2,20 @@ import React, { useState, useEffect } from 'react';
 import './ParksFilter.css';
 import Button from '../Button/Button.jsx';
 
-/**
- * A reusable filter component for parks data
- *
- * @param {Object} props
- * @param {Function} props.onFilterChange - Callback when filters are applied
- * @param {Array} props.stateOptions - Array of available state options
- * @param {boolean} props.isLoading - Whether data is currently loading
- * @param {Object} props.currentFilters - Current active filters from parent component
- */
 function ParksFilter({
                          onFilterChange,
                          stateOptions = [],
                          isLoading = false,
                          currentFilters = { state: '', hasFee: '' }
                      }) {
-    // Local state for form inputs before they're applied
     const [selectedState, setSelectedState] = useState(currentFilters.state || '');
     const [hasFee, setHasFee] = useState(currentFilters.hasFee || '');
 
-    // Sync local state when currentFilters change (e.g., when reset from parent)
     useEffect(() => {
         setSelectedState(currentFilters.state || '');
         setHasFee(currentFilters.hasFee || '');
     }, [currentFilters]);
 
-    // List of all US states with abbreviations
     const allStates = stateOptions.length > 0 ? stateOptions : [
         { name: 'Alabama', code: 'AL' },
         { name: 'Alaska', code: 'AK' },
@@ -87,17 +75,14 @@ function ParksFilter({
         { name: 'U.S. Virgin Islands', code: 'VI' }
     ];
 
-    // Handle state selection change
     const handleStateChange = (e) => {
         setSelectedState(e.target.value);
     };
 
-    // Handle fee filter change
     const handleFeeChange = (e) => {
         setHasFee(e.target.value);
     };
 
-    // Apply filters
     const applyFilters = () => {
         onFilterChange({
             state: selectedState,
@@ -105,7 +90,6 @@ function ParksFilter({
         });
     };
 
-    // Reset all filters
     const resetFilters = () => {
         setSelectedState('');
         setHasFee('');
@@ -115,7 +99,6 @@ function ParksFilter({
         });
     };
 
-    // Remove a specific filter tag
     const removeFilter = (filterType) => {
         if (filterType === 'state') {
             setSelectedState('');
@@ -132,7 +115,6 @@ function ParksFilter({
         }
     };
 
-    // Find state name from code
     const getStateName = (code) => {
         const state = allStates.find(state => state.code === code);
         return state ? state.name : code;
@@ -190,7 +172,6 @@ function ParksFilter({
                 </div>
             </div>
 
-            {/* Show active filters based on currentFilters prop, not local state */}
             {(currentFilters.state || currentFilters.hasFee) && (
                 <div className="active-filters">
                     <span>Active Filters:</span>

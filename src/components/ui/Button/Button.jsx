@@ -6,8 +6,6 @@ function Button({
                     className = "",
                     children,
                     variant = "primary",
-                    size = "medium",
-                    fullWidth = false,
                     disabled = false,
                     onClick,
                 }) {
@@ -15,9 +13,6 @@ function Button({
     const buttonClasses = [
         "button",
         variant === "secondary" ? "secondary" : "",
-        size === "small" ? "small" : "",
-        size === "large" ? "large" : "",
-        fullWidth ? "full-width" : "",
         className
     ].filter(Boolean).join(" ");
     // Otherwise render as a button

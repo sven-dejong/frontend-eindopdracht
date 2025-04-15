@@ -21,5 +21,29 @@
 }
 
 .fee-description {
-    margin-top: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.fee-options {
+    margin: 0;
+}
+
+.main-fee {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.fee-details {
+    list-style: none;
+    margin-top: 0.5rem;
+}
+
+details summary {
+    cursor: pointer;
+    color: var(--color-tertiary);
+    font-size: 0.9em;
+}
+
+details summary:hover {
+    text-decoration: underline;
 }
