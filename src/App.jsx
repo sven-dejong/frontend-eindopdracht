@@ -1,5 +1,6 @@
 import './App.css'
 import {Route, Routes} from "react-router-dom";
+import {FavoritesProvider} from "./context/FavoritesContext.jsx";
 import Home from "./pages/Home/Home.jsx"
 import AllParks from "./pages/AllParks/AllParks.jsx"
 import SearchResults from "./pages/SearchResults/SearchResults.jsx"
@@ -14,19 +15,21 @@ function App() {
 
     return (
         <>
-            <Navigation />
-            <main>
-                <Routes>
-                    <Route path="/" element={<Home/>}/>
-                    <Route path="/parks" element={<AllParks/>}/>
-                    <Route path="/parks/:id" element={<ParkDetail/>}/>
-                    <Route path="/search" element={<SearchResults/>}/>
-                    <Route path="/login" element={<Login/>}/>
-                    <Route path="/register" element={<Register/>}/>
-                    <Route path="*" element={<NotFound/>}/>
-                </Routes>
-            </main>
-            <Footer />
+            <FavoritesProvider>
+                <Navigation/>
+                <main>
+                    <Routes>
+                        <Route path="/" element={<Home/>}/>
+                        <Route path="/parks" element={<AllParks/>}/>
+                        <Route path="/parks/:id" element={<ParkDetail/>}/>
+                        <Route path="/search" element={<SearchResults/>}/>
+                        <Route path="/login" element={<Login/>}/>
+                        <Route path="/register" element={<Register/>}/>
+                        <Route path="*" element={<NotFound/>}/>
+                    </Routes>
+                </main>
+                <Footer/>
+            </FavoritesProvider>
         </>
     )
 }

@@ -56,9 +56,61 @@
     color: white;
 }
 
+/* Heart icon styles */
+.favorite-button {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    background: var(--color-black);
+    border: none;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(6px);
+    z-index: 10;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
+    padding: 0;
+}
+
+.favorite-button:hover {
+    background: var(--color-black);
+    transform: scale(1.1);
+}
+
+.favorite-button:active {
+    transform: scale(1);
+}
+
+.heart-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain !important; /* Force override of parent styles */
+    object-position: center;
+    transition: all 0.2s ease;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+}
+
 @media (max-width: 800px) {
     .parks-container {
         grid-template-columns: 1fr;
         padding: 10px;
+    }
+
+    /* Adjust heart button size on mobile */
+    .favorite-button {
+        width: 40px;
+        height: 40px;
+        bottom: 10px;
+        right: 10px;
+    }
+
+    .heart-icon {
+        width: 20px;
+        height: 20px;
     }
 }
