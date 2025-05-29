@@ -17,6 +17,13 @@
     border: 2px solid var(--color-secondary);
 }
 
+.button.register {
+    background-color: var(--color-tertiary);
+    color: white;
+    border: 2px solid var(--color-secondary);
+    width: 100%;
+}
+
 .button:hover {
     background-color: var(--color-secondary);
 }
