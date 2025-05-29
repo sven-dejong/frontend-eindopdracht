@@ -13,6 +13,7 @@ function ParkDetail() {
     const {id} = useParams();
     const navigate = useNavigate();
     const [park, setPark] = useState(null);
+    const [webcams, setWebcams] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
 
@@ -40,6 +41,8 @@ function ParkDetail() {
                 if (isMounted) {
                     if (response.data.data && response.data.data.length > 0) {
                         setPark(response.data.data[0]);
+                        // Fetch webcams for this park
+                        fetchWebcams(parkCode, abortController.signal);
                     } else {
                         setError(true);
                     }
@@ -50,6 +53,29 @@ function ParkDetail() {
                     console.error("Error fetching park details:", err);
                     setError(true);
                     setLoading(false);
+                }
+            }
+        }
+
+        async function fetchWebcams(parkCode, signal) {
+            try {
+                const webcamResponse = await axios.get(
+                    `https://developer.nps.gov/api/v1/webcams?parkCode=${parkCode}&api_key=${import.meta.env.VITE_API_KEY}`,
+                    {
+                        headers: {
+                            'accept': 'application/json',
+                        },
+                        signal: signal
+                    }
+                );
+
+                if (isMounted && webcamResponse.data.data) {
+                    setWebcams(webcamResponse.data.data);
+                }
+            } catch (err) {
+                if (err.name !== 'CanceledError') {
+                    console.error("Error fetching webcams:", err);
+                    // Don't set error state for webcams as they're optional
                 }
             }
         }
@@ -107,7 +133,7 @@ function ParkDetail() {
                 <div className="inner-content-container park-detail">
 
                     <div className="park-info-grid">
-                        <ParkDescription park={park} />
+                        <ParkDescription park={park} webcams={webcams} />
                         <ParkInformation parkData={park} />
                     </div>
 
