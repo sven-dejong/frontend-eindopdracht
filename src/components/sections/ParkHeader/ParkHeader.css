@@ -33,12 +33,50 @@
     opacity: 0.9;
 }
 
+/* Heart icon styles for park header */
+.park-detail-header .favorite-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: var(--color-black);
+    border: none;
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(6px);
+    z-index: 10;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
+    padding: 0;
+}
+
+.park-detail-header .favorite-button:hover {
+    background: var(--color-black);
+    transform: scale(1.1);
+}
+
+.park-detail-header .favorite-button:active {
+    transform: scale(1);
+}
+
+.park-detail-header .heart-icon {
+    width: 28px;
+    height: 28px;
+    object-fit: contain !important;
+    object-position: center;
+    transition: all 0.2s ease;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+}
+
 @media (max-width: 900px) {
     .header-overlay h1 {
         font-size: 2rem;
     }
 }
-
 
 @media (max-width: 600px) {
     .park-detail-header {
@@ -54,8 +92,16 @@
         font-size: 1.8rem;
     }
 
-    .park-detail-header {
-        height: 35vh;
-        min-height: 200px;
+    /* Adjust heart button size on mobile for header */
+    .park-detail-header .favorite-button {
+        width: 48px;
+        height: 48px;
+        top: 15px;
+        right: 15px;
+    }
+
+    .park-detail-header .heart-icon {
+        width: 24px;
+        height: 24px;
     }
 }
