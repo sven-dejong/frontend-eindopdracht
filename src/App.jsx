@@ -10,11 +10,13 @@ import NotFound from "./pages/NotFound/NotFound.jsx"
 import Navigation from "./components/ui/Navigation/Navigation.jsx";
 import Footer from "./components/ui/Footer/Footer.jsx";
 import ParkDetail from "./pages/ParkDetail/ParkDetail.jsx";
+import {AuthProvider} from "./context/AuthContext.jsx";
 
 function App() {
 
     return (
         <>
+            <AuthProvider>
             <FavoritesProvider>
                 <Navigation/>
                 <main>
@@ -30,6 +32,7 @@ function App() {
                 </main>
                 <Footer/>
             </FavoritesProvider>
+            </AuthProvider>
         </>
     )
 }

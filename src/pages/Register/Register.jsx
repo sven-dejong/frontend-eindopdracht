@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Button from '../../components/ui/Button/Button'; // Adjust path as needed
+import { useAuth } from '../../context/AuthContext';
+import Button from '../../components/ui/Button/Button';
 import './Register.css';
 
 function Register() {
@@ -11,8 +12,15 @@ function Register() {
         confirmPassword: ''
     });
     const [errors, setErrors] = useState({});
+    const [passwordRequirements, setPasswordRequirements] = useState({
+        length: false,
+        uppercase: false,
+        number: false,
+        special: false
+    });
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
+    const { register, loginUser } = useAuth();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -28,6 +36,22 @@ function Register() {
                 [name]: ''
             }));
         }
+
+        // Real-time password validation
+        if (name === 'password') {
+            validatePasswordRequirements(value);
+        }
+    };
+
+    const validatePasswordRequirements = (password) => {
+        const requirements = {
+            length: password.length >= 8,
+            uppercase: /[A-Z]/.test(password),
+            number: /\d/.test(password),
+            special: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)
+        };
+        setPasswordRequirements(requirements);
+        return Object.values(requirements).every(req => req === true);
     };
 
     const validateForm = () => {
@@ -52,8 +76,8 @@ function Register() {
         // Password validation
         if (!formData.password) {
             newErrors.password = 'Password is required';
-        } else if (formData.password.length < 6) {
-            newErrors.password = 'Password must be at least 6 characters long';
+        } else if (!validatePasswordRequirements(formData.password)) {
+            newErrors.password = 'Password does not meet all requirements';
         }
 
         // Confirm password validation
@@ -75,43 +99,59 @@ function Register() {
         }
 
         setIsLoading(true);
+        setErrors({});
 
         try {
-            // NOVI Backend Registration API call
-            const response = await fetch('https://novi.datavortex.nl/api/auth/signup', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Api-Key': 'parkpal:eCBGnZ1sIu7QwZZja1D3'
-                },
-                body: JSON.stringify({
-                    username: formData.username,
-                    email: formData.email,
-                    password: formData.password,
-                    info: "ParkPal user", // Optional info field
-                    role: ["user"] // Default user role
-                })
+            console.log('🔄 Starting registration process...');
+
+            // Step 1: Register the user
+            const registrationResult = await register({
+                username: formData.username,
+                email: formData.email,
+                password: formData.password,
+                info: "ParkPal user"
             });
 
-            const data = await response.json();
+            console.log('✅ Registration successful:', registrationResult);
 
-            if (response.ok) {
-                console.log('Registration successful:', data);
-                alert('Registration successful! Please log in.');
-                navigate('/login');
-            } else {
-                // Handle API errors
-                const errorMessage = data.message || 'Registration failed. Please try again.';
-                setErrors({ submit: errorMessage });
-                console.error('Registration failed:', data);
-            }
+            // Step 2: Automatically log in the user
+            console.log('🔄 Auto-logging in user after registration...');
+
+            await loginUser({
+                username: formData.username,
+                password: formData.password
+            });
+
+            console.log('✅ Auto-login successful');
+
+            // Clear form
+            setFormData({
+                username: '',
+                email: '',
+                password: '',
+                confirmPassword: ''
+            });
+
+            // Redirect to homepage (user is now logged in)
+            navigate('/');
 
         } catch (error) {
-            console.error('Registration error:', error);
-            setErrors({ submit: 'Network error. Please check your connection and try again.' });
+            console.error('❌ Registration/Login failed:', error);
+
+            let errorMessage = 'Registration failed. Please try again.';
+
+            if (error.message) {
+                errorMessage = error.message;
+            }
+
+            setErrors({ submit: errorMessage });
         } finally {
             setIsLoading(false);
         }
+    };
+
+    const getPasswordRequirementClass = (requirement) => {
+        return `password-requirement ${passwordRequirements[requirement] ? 'valid' : 'invalid'}`;
     };
 
     return (
@@ -166,6 +206,34 @@ function Register() {
                             disabled={isLoading}
                         />
                         {errors.password && <span className="error-message">{errors.password}</span>}
+
+                        {/* Password Requirements Display */}
+                        <div className="password-requirements">
+                            <div className={getPasswordRequirementClass('length')}>
+                                <span className="requirement-icon">
+                                    {passwordRequirements.length ? '✓' : '✗'}
+                                </span>
+                                At least 8 characters
+                            </div>
+                            <div className={getPasswordRequirementClass('uppercase')}>
+                                <span className="requirement-icon">
+                                    {passwordRequirements.uppercase ? '✓' : '✗'}
+                                </span>
+                                One uppercase letter
+                            </div>
+                            <div className={getPasswordRequirementClass('number')}>
+                                <span className="requirement-icon">
+                                    {passwordRequirements.number ? '✓' : '✗'}
+                                </span>
+                                One number
+                            </div>
+                            <div className={getPasswordRequirementClass('special')}>
+                                <span className="requirement-icon">
+                                    {passwordRequirements.special ? '✓' : '✗'}
+                                </span>
+                                One special character
+                            </div>
+                        </div>
                     </div>
 
                     <div className="form-group">

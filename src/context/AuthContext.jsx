@@ -1,5 +1,6 @@
 // contexts/AuthContext.js
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import axios from 'axios';
 
 const AuthContext = createContext();
 
@@ -17,6 +18,19 @@ export const AuthProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+    // Base API configuration
+    const API_BASE_URL = 'https://api.datavortex.nl/parkpal';
+    const API_KEY = import.meta.env.VITE_X_API_KEY;
+
+    // Create axios instance for authenticated requests
+    const authenticatedAxios = axios.create({
+        baseURL: API_BASE_URL,
+        headers: {
+            'Content-Type': 'application/json',
+            'X-Api-Key': API_KEY
+        }
+    });
+
     // Load user and token from localStorage on mount
     useEffect(() => {
         try {
@@ -25,16 +39,16 @@ export const AuthProvider = ({ children }) => {
 
             if (savedToken && savedUser) {
                 const parsedUser = JSON.parse(savedUser);
+
                 setToken(savedToken);
                 setUser(parsedUser);
                 setIsAuthenticated(true);
-                console.log('✅ User loaded from localStorage:', parsedUser);
+
             } else {
                 console.log('📝 No saved authentication found');
             }
         } catch (error) {
             console.error('Error loading authentication from localStorage:', error);
-            // Clear potentially corrupted data
             localStorage.removeItem('parkpal-token');
             localStorage.removeItem('parkpal-user');
         } finally {
@@ -44,18 +58,13 @@ export const AuthProvider = ({ children }) => {
 
     const login = (userData, accessToken) => {
         try {
-            console.log('🔐 Logging in user:', userData);
-
-            // Store in localStorage
             localStorage.setItem('parkpal-token', accessToken);
             localStorage.setItem('parkpal-user', JSON.stringify(userData));
 
-            // Update state
             setToken(accessToken);
             setUser(userData);
             setIsAuthenticated(true);
 
-            console.log('✅ Login successful, user data saved');
         } catch (error) {
             console.error('Error during login:', error);
             throw error;
@@ -64,101 +73,112 @@ export const AuthProvider = ({ children }) => {
 
     const logout = () => {
         try {
-            console.log('🚪 Logging out user');
 
-            // Clear localStorage
             localStorage.removeItem('parkpal-token');
             localStorage.removeItem('parkpal-user');
 
-            // Clear state
             setToken(null);
             setUser(null);
             setIsAuthenticated(false);
 
-            console.log('✅ Logout successful');
         } catch (error) {
             console.error('Error during logout:', error);
         }
     };
 
-    const updateUser = (updatedUserData) => {
+    // Register user - this works based on your testing
+    const register = async (userData) => {
         try {
-            console.log('📝 Updating user data:', updatedUserData);
 
-            const newUserData = { ...user, ...updatedUserData };
+            const payload = {
+                username: userData.username,
+                email: userData.email,
+                password: userData.password,
+                info: userData.info || "ParkPal user",
+                authorities: [
+                    {
+                        authority: "USER"
+                    }
+                ]
+            };
 
-            // Update localStorage
-            localStorage.setItem('parkpal-user', JSON.stringify(newUserData));
+            const response = await axios.post(`${API_BASE_URL}/users`, payload, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Api-Key': API_KEY
+                },
+                timeout: 10000
+            });
 
-            // Update state
-            setUser(newUserData);
+            return response.data;
 
-            console.log('✅ User data updated');
         } catch (error) {
-            console.error('Error updating user data:', error);
+            console.error('❌ Registration error:', error);
+            throw new Error(error.response?.data?.message || 'Registration failed');
         }
     };
 
-    // Check if token is expired (basic check)
-    const isTokenValid = () => {
-        if (!token) return false;
-
+    // Login user - handle the JWT response correctly
+    const loginUser = async (credentials) => {
         try {
-            // JWT tokens have 3 parts separated by dots
-            const payload = token.split('.')[1];
-            if (!payload) return false;
 
-            // Decode the payload (basic check)
-            const decodedPayload = JSON.parse(atob(payload));
-            const currentTime = Date.now() / 1000;
+            const response = await axios.post(`${API_BASE_URL}/users/authenticate`, {
+                username: credentials.username,
+                password: credentials.password
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Api-Key': API_KEY
+                },
+                timeout: 10000
+            });
 
-            // Check if token is expired
-            if (decodedPayload.exp && decodedPayload.exp < currentTime) {
-                console.log('⚠️ Token has expired');
-                logout(); // Auto-logout if token is expired
-                return false;
+            // The API returns {jwt: "token_string"}
+            const jwtToken = response.data.jwt;
+
+            if (!jwtToken) {
+                throw new Error('No JWT token received from server');
             }
 
-            return true;
-        } catch (error) {
-            console.error('Error validating token:', error);
-            return false;
-        }
-    };
+            // Decode the JWT to get user information
+            try {
+                const tokenParts = jwtToken.split('.');
+                if (tokenParts.length !== 3) {
+                    throw new Error('Invalid JWT format');
+                }
 
-    // Get authorization header for API requests
-    const getAuthHeader = () => {
-        if (!token || !isTokenValid()) {
-            return {};
-        }
+                const tokenPayload = JSON.parse(atob(tokenParts[1]));
 
-        return {
-            'Authorization': `Bearer ${token}`,
-            'X-Api-Key': 'parkpal:eCBGnZ1sIu7QwZZja1D3'
-        };
-    };
+                const userData = {
+                    id: tokenPayload.userId,
+                    username: tokenPayload.sub, // 'sub' field contains username
+                    role: tokenPayload.role,
+                    applicationName: tokenPayload.applicationName
+                };
 
-    // Make authenticated API requests
-    const authenticatedFetch = async (url, options = {}) => {
-        const authHeaders = getAuthHeader();
+                // Use the login function to save user data and token
+                login(userData, jwtToken);
 
-        const response = await fetch(url, {
-            ...options,
-            headers: {
-                'Content-Type': 'application/json',
-                ...authHeaders,
-                ...options.headers
+                return { userData, accessToken: jwtToken };
+
+            } catch (decodeError) {
+                console.error('❌ Failed to decode JWT:', decodeError);
+                throw new Error('Invalid JWT token received from server');
             }
-        });
 
-        // Handle unauthorized responses
-        if (response.status === 401) {
-            console.log('🚫 Unauthorized request, logging out');
-            logout();
-            throw new Error('Session expired. Please log in again.');
+        } catch (error) {
+            console.error('❌ Login error details:', error);
+
+            if (error.response?.status === 403) {
+                throw new Error('Access denied. Please check your API key or credentials.');
+            }
+
+            if (error.response?.status === 401) {
+                throw new Error('Invalid username or password.');
+            }
+
+            throw new Error(error.response?.data?.message || 'Login failed');
         }
-
-        return response;
     };
 
     const value = {
@@ -168,21 +188,16 @@ export const AuthProvider = ({ children }) => {
         isLoading,
         isAuthenticated,
 
-        // Methods
+        authenticatedAxios,
+
         login,
         logout,
-        updateUser,
-        isTokenValid,
-        getAuthHeader,
-        authenticatedFetch,
+        register,
+        loginUser,
 
-        // User info helpers
         getUserId: () => user?.id,
         getUsername: () => user?.username,
-        getUserEmail: () => user?.email,
-        getUserRoles: () => user?.roles || [],
-        isAdmin: () => user?.roles?.includes('ROLE_ADMIN') || false,
-        isModerator: () => user?.roles?.includes('ROLE_MODERATOR') || false
+        getUserEmail: () => user?.email
     };
 
     return (

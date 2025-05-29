@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext'; // Adjust path as needed
-import Button from '../../components/ui/Button/Button'; // Adjust path as needed
+import { useAuth } from '../../context/AuthContext';
+import Button from '../../components/ui/Button/Button';
 import './Login.css';
 
 function Login() {
@@ -12,7 +12,7 @@ function Login() {
     const [errors, setErrors] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
-    const { login } = useAuth();
+    const { loginUser } = useAuth();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -21,7 +21,6 @@ function Login() {
             [name]: value
         }));
 
-        // Clear error when user starts typing
         if (errors[name]) {
             setErrors(prev => ({
                 ...prev,
@@ -33,12 +32,10 @@ function Login() {
     const validateForm = () => {
         const newErrors = {};
 
-        // Username validation (can be email or username)
         if (!formData.username) {
             newErrors.username = 'Email or username is required';
         }
 
-        // Password validation
         if (!formData.password) {
             newErrors.password = 'Password is required';
         }
@@ -57,46 +54,26 @@ function Login() {
         setIsLoading(true);
 
         try {
-            // NOVI Backend Login API call
-            const response = await fetch('https://novi.datavortex.nl/api/auth/signin', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Api-Key': 'parkpal:eCBGnZ1sIu7QwZZja1D3'
-                },
-                body: JSON.stringify({
-                    username: formData.username,
-                    password: formData.password
-                })
+
+            const result = await loginUser({
+                username: formData.username,
+                password: formData.password
             });
 
-            const data = await response.json();
+            console.log('Login successful:', result);
 
-            if (response.ok) {
-                console.log('Login successful:', data);
-
-                // Use auth context to handle login
-                const userData = {
-                    id: data.id,
-                    username: data.username,
-                    email: data.email,
-                    roles: data.roles
-                };
-
-                login(userData, data.accessToken);
-
-                alert('Login successful!');
-                navigate('/'); // Navigate to homepage or dashboard
-            } else {
-                // Handle API errors
-                const errorMessage = data.message || 'Login failed. Please check your credentials.';
-                setErrors({ submit: errorMessage });
-                console.error('Login failed:', data);
-            }
+            navigate('/');
 
         } catch (error) {
-            console.error('Login error:', error);
-            setErrors({ submit: 'Network error. Please check your connection and try again.' });
+            console.error('Login failed:', error);
+
+            let errorMessage = 'Login failed. Please try again.';
+
+            if (error.message) {
+                errorMessage = error.message;
+            }
+
+            setErrors({ submit: errorMessage });
         } finally {
             setIsLoading(false);
         }
@@ -112,7 +89,7 @@ function Login() {
 
                 <form onSubmit={handleSubmit} className="login-form">
                     <div className="form-group">
-                        <label htmlFor="username">Email or Username</label>
+                        <label htmlFor="username">Username</label>
                         <input
                             type="text"
                             id="username"
@@ -120,7 +97,7 @@ function Login() {
                             value={formData.username}
                             onChange={handleChange}
                             className={errors.username ? 'error' : ''}
-                            placeholder="Enter your email or username"
+                            placeholder="Enter your username"
                             disabled={isLoading}
                         />
                         {errors.username && <span className="error-message">{errors.username}</span>}
