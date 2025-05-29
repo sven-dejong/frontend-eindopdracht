@@ -7,11 +7,13 @@ import Button from "../Button/Button.jsx";
 
 function Navigation() {
     const location = useLocation();
-    const [isHomePage, setIsHomePage] = useState(false);
+    const [isTransparentPage, setIsTransparentPage] = useState(false);
     const { isAuthenticated, user, logout, isLoading } = useAuth();
 
     useEffect(() => {
-        setIsHomePage(location.pathname === '/');
+        // Pages where navigation should be transparent
+        const transparentPages = ['/', '/login', '/register'];
+        setIsTransparentPage(transparentPages.includes(location.pathname));
     }, [location]);
 
     // Debug logging
@@ -21,14 +23,15 @@ function Navigation() {
         console.log('   - isAuthenticated:', isAuthenticated);
         console.log('   - user:', user);
         console.log('   - username:', user?.username);
-    }, [isLoading, isAuthenticated, user]);
+        console.log('   - isTransparentPage:', isTransparentPage);
+    }, [isLoading, isAuthenticated, user, isTransparentPage]);
 
     const handleLogout = () => {
         logout();
     };
 
     return (
-        <nav className={`main-navigation outer-content-container ${!isHomePage ? 'with-background' : ''}`}>
+        <nav className={`main-navigation outer-content-container ${!isTransparentPage ? 'with-background' : ''}`}>
             <div className="inner-nav-container">
                 <div className="nav-home">
                     <Link to="/"><h1>ParkPal</h1></Link>
@@ -63,13 +66,13 @@ function Navigation() {
                                             All Parks
                                         </NavLink>
                                     </Button>
-                                    <Button className="secondary">
+                                    <Button className="primary">
                                         <NavLink to="/login"
                                                  className={({isActive}) => isActive ? "active-link" : "default-link"}>
                                             Login
                                         </NavLink>
                                     </Button>
-                                    <Button className="primary">
+                                    <Button className="secondary">
                                         <NavLink to="/register"
                                                  className={({isActive}) => isActive ? "active-link" : "default-link"}>
                                             Register
