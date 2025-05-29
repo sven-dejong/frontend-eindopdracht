@@ -1,19 +1,19 @@
 import "./ParkCard.css"
 import { Link } from "react-router-dom";
-import { useState } from "react";
-import heartHollow from "/src/assets/heart-hollow.png"; // Adjust path as needed
+import { useFavorites } from "/src/context/FavoritesContext.jsx";
+import heartHollow from "/src/assets/heart-hollow.png";
 import heartFilled from "/src/assets/heart-filled.png";
 
 function ParkCard({ parkData }) {
     const image = parkData?.images?.[0]?.url
-    const [isFavorited, setIsFavorited] = useState(false); // This will eventually come from your favorites state/context
+    const { toggleFavorite, isFavorited } = useFavorites();
+    const isCurrentlyFavorited = isFavorited(parkData.parkCode);
 
     const handleFavoriteClick = (e) => {
         e.preventDefault(); // Prevent navigation when clicking the heart
         e.stopPropagation();
-        setIsFavorited(!isFavorited);
-        console.log('Favorite toggled for:', parkData.name, 'New state:', !isFavorited);
-        // TODO: Add logic to save/remove from favorites
+        toggleFavorite(parkData);
+        console.log('Favorite toggled for:', parkData.name, 'New state:', !isCurrentlyFavorited);
     };
 
     return (
@@ -27,12 +27,12 @@ function ParkCard({ parkData }) {
                         <p className="park-location">{parkData.states}</p>
                     </div>
                     <button
-                        className={`favorite-button ${isFavorited ? 'favorited' : ''}`}
+                        className={`favorite-button ${isCurrentlyFavorited ? 'favorited' : ''}`}
                         onClick={handleFavoriteClick}
-                        aria-label={`${isFavorited ? 'Remove' : 'Add'} ${parkData.name} ${isFavorited ? 'from' : 'to'} favorites`}
+                        aria-label={`${isCurrentlyFavorited ? 'Remove' : 'Add'} ${parkData.name} ${isCurrentlyFavorited ? 'from' : 'to'} favorites`}
                     >
                         <img
-                            src={isFavorited ? heartFilled : heartHollow}
+                            src={isCurrentlyFavorited ? heartFilled : heartHollow}
                             alt="Favorite"
                             className="heart-icon"
                         />

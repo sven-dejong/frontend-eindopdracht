@@ -1,17 +1,18 @@
 import "./ParkHeader.css"
-import React, { useState } from "react";
+import React from "react";
+import { useFavorites } from "/src/context/FavoritesContext";
 import heartHollow from "/src/assets/heart-hollow.png";
 import heartFilled from "/src/assets/heart-filled.png";
 
 function ParkHeader({park}) {
-    const [isFavorited, setIsFavorited] = useState(false); // This will eventually come from your favorites state/context
+    const { toggleFavorite, isFavorited } = useFavorites();
+    const isCurrentlyFavorited = isFavorited(park.parkCode);
 
     const handleFavoriteClick = (e) => {
         e.preventDefault();
         e.stopPropagation();
-        setIsFavorited(!isFavorited);
-        console.log('Favorite toggled for:', park.fullName, 'New state:', !isFavorited);
-        // TODO: Add logic to save/remove from favorites
+        toggleFavorite(park);
+        console.log('Favorite toggled for:', park.fullName, 'New state:', !isCurrentlyFavorited);
     };
 
     return (
@@ -22,12 +23,12 @@ function ParkHeader({park}) {
                 <p>{park.designation}</p>
             </div>
             <button
-                className={`favorite-button ${isFavorited ? 'favorited' : ''}`}
+                className={`favorite-button ${isCurrentlyFavorited ? 'favorited' : ''}`}
                 onClick={handleFavoriteClick}
-                aria-label={`${isFavorited ? 'Remove' : 'Add'} ${park.fullName} ${isFavorited ? 'from' : 'to'} favorites`}
+                aria-label={`${isCurrentlyFavorited ? 'Remove' : 'Add'} ${park.fullName} ${isCurrentlyFavorited ? 'from' : 'to'} favorites`}
             >
                 <img
-                    src={isFavorited ? heartFilled : heartHollow}
+                    src={isCurrentlyFavorited ? heartFilled : heartHollow}
                     alt="Favorite"
                     className="heart-icon"
                 />
