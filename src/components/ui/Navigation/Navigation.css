@@ -1,4 +1,4 @@
- .main-navigation {
+.main-navigation {
     font-family: 'Figtree', sans-serif;
     background-color: transparent;
     position: absolute;
@@ -46,6 +46,7 @@
     list-style: none;
     display: flex;
     justify-content: flex-end;
+    align-items: center;
     gap: 15px;
     flex-grow: 1;
     flex-shrink: 0;
@@ -72,6 +73,14 @@
     font-weight: 600;
 }
 
+.welcome-message {
+    color: var(--color-white);
+    font-weight: 600;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+    white-space: nowrap;
+    font-size: 0.9rem;
+}
+
 .main-navigation .search-bar-container {
     flex-grow: 1;
 }
@@ -84,21 +93,25 @@
     width: 100%;
 }
 
- @media (max-width: 800px) {
-        .inner-nav-container {
-            flex-direction: column;
-            align-items: center;
-            padding: 10px 15px;
-        }
-
-        .main-navigation-links {
-            flex-direction: column;
-            width: 100%;
-            gap: 10px;
-        }
-
-        .nav-home {
-            padding: 0;
-
-        }
+@media (max-width: 800px) {
+    .inner-nav-container {
+        flex-direction: column;
+        align-items: center;
+        padding: 10px 15px;
     }
+
+    .main-navigation-links {
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+    }
+
+    .nav-home {
+        padding: 0;
+    }
+
+    .welcome-message {
+        text-align: center;
+        font-size: 0.8rem;
+    }
+}

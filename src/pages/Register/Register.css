@@ -139,6 +139,68 @@
     text-decoration: underline;
 }
 
+/* Add these styles to your existing Register.css file */
+
+.password-requirements {
+    margin-top: 8px;
+    padding: 12px;
+    background-color: #f8f9fa;
+    border-radius: 6px;
+    border: 1px solid #e9ecef;
+}
+
+.password-requirement {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+    font-size: 0.875rem;
+    transition: color 0.2s ease;
+}
+
+.password-requirement:last-child {
+    margin-bottom: 0;
+}
+
+.password-requirement.valid {
+    color: #28a745;
+}
+
+.password-requirement.invalid {
+    color: #dc3545;
+}
+
+.requirement-icon {
+    margin-right: 8px;
+    font-weight: bold;
+    width: 16px;
+    text-align: center;
+}
+
+.password-requirement.valid .requirement-icon {
+    color: #28a745;
+}
+
+.password-requirement.invalid .requirement-icon {
+    color: #dc3545;
+}
+
+/* Enhance the existing error message styling if needed */
+.error-message {
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 4px;
+    display: block;
+}
+
+.submit-error {
+    padding: 12px;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 6px;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
 /* Mobile responsiveness */
 @media (max-width: 480px) {
     .register-container {
