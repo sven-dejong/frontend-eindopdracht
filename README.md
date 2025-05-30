@@ -2,11 +2,13 @@
 
 ## Inleiding
 
-[Voeg hier een korte beschrijving toe van je parks applicatie - bijvoorbeeld: "Een web-applicatie waarmee gebruikers nationale parken kunnen bekijken, zoeken, en hun favorieten kunnen opslaan."]
+Ik heb een overzichtelijke webapplicatie geprobeerd te maken waarin informatie van alle National Parks staan. Amerika telt meer dan 60
+parken en het kan lastig zijn om informatie over al deze parken op één plaats te verzamelen. Ik wil mensen die hierin
+geïnteresseerd de gelegenheid bieden om van alles te weten te komen over parken die ze interessant lijken en dat mensen
+die ze willen bezoeken goed voorbereid zijn door bijvoorbeeld te kunnen zien waar ze kunnen parkeren, hoeveel entree kost, wat de weersvoorspellingen zijn
+en nog veel meer.
 
 ![Screenshot van de applicatie](./src/assets/screenshot-homepage-parkpal.png)
-*Screenshot van de ParkPal homepage*
-
 ## Benodigdheden
 
 Om deze applicatie te kunnen runnen heb je het volgende nodig:
@@ -52,6 +54,7 @@ Volg deze stappen om de applicatie lokaal te installeren en te runnen:
 ## Inloggegevens
 
 **Test Account:**
+
 - Username: `sventest1`
 - Wachtwoord: `12345678`
 
@@ -94,11 +97,13 @@ De applicatie bevat de volgende pagina's en functionaliteiten:
 ## Troubleshooting
 
 **Applicatie start niet op:**
+
 - Controleer of Node.js geïnstalleerd is: `node --version`
 - Controleer of alle dependencies geïnstalleerd zijn: `npm install`
 - Controleer of de .env variabelen correct zijn ingesteld
 
 **API errors:**
+
 - Controleer of de API key geldig is
 - Controleer internetverbinding
 - Controleer of de API endpoints bereikbaar zijn
