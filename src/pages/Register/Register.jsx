@@ -22,10 +22,8 @@ function Register() {
     const navigate = useNavigate();
     const { register, loginUser, isAuthenticated } = useAuth();
 
-    // Redirect if already authenticated
     useEffect(() => {
         if (isAuthenticated) {
-            console.log('🔄 User already logged in, redirecting to homepage...');
             navigate('/');
         }
     }, [isAuthenticated, navigate]);
@@ -37,7 +35,6 @@ function Register() {
             [name]: value
         }));
 
-        // Clear error when user starts typing
         if (errors[name]) {
             setErrors(prev => ({
                 ...prev,
@@ -45,7 +42,6 @@ function Register() {
             }));
         }
 
-        // Real-time password validation
         if (name === 'password') {
             validatePasswordRequirements(value);
         }
@@ -65,7 +61,6 @@ function Register() {
     const validateForm = () => {
         const newErrors = {};
 
-        // Username validation
         if (!formData.username) {
             newErrors.username = 'Username is required';
         } else if (formData.username.length < 3) {
@@ -74,21 +69,18 @@ function Register() {
             newErrors.username = 'Username can only contain letters, numbers, and underscores';
         }
 
-        // Email validation
         if (!formData.email) {
             newErrors.email = 'Email is required';
         } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
             newErrors.email = 'Please enter a valid email address';
         }
 
-        // Password validation
         if (!formData.password) {
             newErrors.password = 'Password is required';
         } else if (!validatePasswordRequirements(formData.password)) {
             newErrors.password = 'Password does not meet all requirements';
         }
 
-        // Confirm password validation
         if (!formData.confirmPassword) {
             newErrors.confirmPassword = 'Please confirm your password';
         } else if (formData.password !== formData.confirmPassword) {
@@ -110,9 +102,8 @@ function Register() {
         setErrors({});
 
         try {
-            console.log('🔄 Starting registration process...');
+            console.log('Starting registration process...');
 
-            // Step 1: Register the user
             const registrationResult = await register({
                 username: formData.username,
                 email: formData.email,
@@ -120,19 +111,13 @@ function Register() {
                 info: "ParkPal user"
             });
 
-            console.log('✅ Registration successful:', registrationResult);
-
-            // Step 2: Automatically log in the user
-            console.log('🔄 Auto-logging in user after registration...');
+            console.log('Registration successful:', registrationResult);
 
             await loginUser({
                 username: formData.username,
                 password: formData.password
             });
 
-            console.log('✅ Auto-login successful');
-
-            // Clear form
             setFormData({
                 username: '',
                 email: '',
@@ -140,11 +125,10 @@ function Register() {
                 confirmPassword: ''
             });
 
-            // Redirect to homepage (user is now logged in)
             navigate('/');
 
         } catch (error) {
-            console.error('❌ Registration/Login failed:', error);
+            console.error('Registration/Login failed:', error);
 
             let errorMessage = 'Registration failed. Please try again.';
 
@@ -162,7 +146,6 @@ function Register() {
         return `password-requirement ${passwordRequirements[requirement] ? 'valid' : 'invalid'}`;
     };
 
-    // Don't render the form if already authenticated (during redirect)
     if (isAuthenticated) {
         return (
             <div className="register-container">
@@ -229,7 +212,6 @@ function Register() {
                         />
                         {errors.password && <span className="error-message">{errors.password}</span>}
 
-                        {/* Password Requirements Display */}
                         <div className="password-requirements">
                             <div className={getPasswordRequirementClass('length')}>
                                 <span className="requirement-icon">

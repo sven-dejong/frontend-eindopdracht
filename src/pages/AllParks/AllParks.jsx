@@ -214,14 +214,12 @@ function AllParks() {
                 <div className="inner-content-container all-parks">
                     <h1>All Parks</h1>
 
-                    {/* Add filter component */}
                     <ParksFilter
                         onFilterChange={handleFilterChange}
                         isLoading={loading}
                         currentFilters={activeFilters}
                     />
 
-                    {/* Show filtered count or loading message */}
                     {(activeFilters.state || activeFilters.hasFee) && (
                         <p className="filter-results-count">
                             {loading ? (

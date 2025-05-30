@@ -11,19 +11,11 @@ function Navigation() {
     const { isAuthenticated, user, logout, isLoading } = useAuth();
 
     useEffect(() => {
-        // Pages where navigation should be transparent
         const transparentPages = ['/', '/login', '/register', '/profile'];
         setIsTransparentPage(transparentPages.includes(location.pathname));
     }, [location]);
 
-    // Debug logging
     useEffect(() => {
-        console.log('🧭 Navigation render - Auth state:');
-        console.log('   - isLoading:', isLoading);
-        console.log('   - isAuthenticated:', isAuthenticated);
-        console.log('   - user:', user);
-        console.log('   - username:', user?.username);
-        console.log('   - isTransparentPage:', isTransparentPage);
     }, [isLoading, isAuthenticated, user, isTransparentPage]);
 
     const handleLogout = () => {

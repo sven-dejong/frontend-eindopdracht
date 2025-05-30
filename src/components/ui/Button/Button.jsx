@@ -9,13 +9,13 @@ function Button({
                     disabled = false,
                     onClick,
                 }) {
-    // Build the complete class string
+
     const buttonClasses = [
         "button",
         variant === "secondary" ? "secondary" : "",
         className
     ].filter(Boolean).join(" ");
-    // Otherwise render as a button
+
     return (
         <button
             type={buttonType}

@@ -39,7 +39,6 @@
     color: white;
 }
 
-/* Primary button styling (Back to Home) */
 .back-button {
     background-color: var(--color-tertiary);
     color: white;
@@ -50,7 +49,6 @@
     background-color: var(--color-secondary);
 }
 
-/* Secondary button styling (Logout) */
 .logout-button {
     background-color: var(--color-white);
     color: var(--color-tertiary);

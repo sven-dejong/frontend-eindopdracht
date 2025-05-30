@@ -41,7 +41,6 @@ function ParkDetail() {
                 if (isMounted) {
                     if (response.data.data && response.data.data.length > 0) {
                         setPark(response.data.data[0]);
-                        // Fetch webcams for this park
                         fetchWebcams(parkCode, abortController.signal);
                     } else {
                         setError(true);
@@ -75,7 +74,6 @@ function ParkDetail() {
             } catch (err) {
                 if (err.name !== 'CanceledError') {
                     console.error("Error fetching webcams:", err);
-                    // Don't set error state for webcams as they're optional
                 }
             }
         }

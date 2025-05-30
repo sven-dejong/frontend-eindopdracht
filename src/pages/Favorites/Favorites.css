@@ -1,9 +1,7 @@
-/* Favorites.css */
-
 .favorites-container {
     min-height: 100vh;
     background-color: #f8f9fa;
-    padding: 60px 20px 40px; /* Extra top padding for fixed navigation */
+    padding: 60px 20px 40px;
 }
 
 .favorites-header {
@@ -49,7 +47,6 @@
     padding: 20px 0;
 }
 
-/* Empty state styling */
 .empty-favorites {
     text-align: center;
     padding: 60px 20px;
@@ -84,7 +81,6 @@
     min-width: 150px;
 }
 
-/* Responsive design */
 @media (max-width: 768px) {
     .favorites-container {
         padding: 100px 15px 20px;
