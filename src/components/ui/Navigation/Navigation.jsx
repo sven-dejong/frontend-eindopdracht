@@ -12,7 +12,7 @@ function Navigation() {
 
     useEffect(() => {
         // Pages where navigation should be transparent
-        const transparentPages = ['/', '/login', '/register'];
+        const transparentPages = ['/', '/login', '/register', '/profile'];
         setIsTransparentPage(transparentPages.includes(location.pathname));
     }, [location]);
 
@@ -51,6 +51,12 @@ function Navigation() {
                                             All Parks
                                         </NavLink>
                                     </Button>
+                                    <Button className="primary">
+                                        <NavLink to="/profile"
+                                                 className={({isActive}) => isActive ? "active-link" : "default-link"}>
+                                            Profile
+                                        </NavLink>
+                                    </Button>
                                     <Button
                                         className="secondary"
                                         onClick={handleLogout}
@@ -66,13 +72,13 @@ function Navigation() {
                                             All Parks
                                         </NavLink>
                                     </Button>
-                                    <Button className="primary">
+                                    <Button className="secondary">
                                         <NavLink to="/login"
                                                  className={({isActive}) => isActive ? "active-link" : "default-link"}>
                                             Login
                                         </NavLink>
                                     </Button>
-                                    <Button className="secondary">
+                                    <Button className="primary">
                                         <NavLink to="/register"
                                                  className={({isActive}) => isActive ? "active-link" : "default-link"}>
                                             Register
