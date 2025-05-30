@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import Button from '../../components/ui/Button/Button';
@@ -12,7 +12,15 @@ function Login() {
     const [errors, setErrors] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
-    const { loginUser } = useAuth();
+    const { loginUser, isAuthenticated } = useAuth();
+
+    // Redirect if already authenticated
+    useEffect(() => {
+        if (isAuthenticated) {
+            console.log('🔄 User already logged in, redirecting to homepage...');
+            navigate('/');
+        }
+    }, [isAuthenticated, navigate]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -54,7 +62,6 @@ function Login() {
         setIsLoading(true);
 
         try {
-
             const result = await loginUser({
                 username: formData.username,
                 password: formData.password
@@ -78,6 +85,20 @@ function Login() {
             setIsLoading(false);
         }
     };
+
+    // Don't render the form if already authenticated (during redirect)
+    if (isAuthenticated) {
+        return (
+            <div className="login-container">
+                <div className="login-card">
+                    <div className="login-header">
+                        <h1>Already Logged In</h1>
+                        <p>Redirecting you to the homepage...</p>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="login-container">

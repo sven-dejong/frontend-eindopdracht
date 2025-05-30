@@ -39,6 +39,35 @@
     color: white;
 }
 
+/* Primary button styling (Back to Home) */
+.back-button {
+    background-color: var(--color-tertiary);
+    color: white;
+    border: 2px solid var(--color-secondary) !important;
+}
+
+.back-button:hover {
+    background-color: var(--color-secondary);
+}
+
+/* Secondary button styling (Logout) */
+.logout-button {
+    background-color: var(--color-white);
+    color: var(--color-tertiary);
+    border: 2px solid var(--color-tertiary) !important;
+}
+
+.logout-button:hover {
+    background-color: var(--color-secondary);
+    color: white;
+}
+
+.back-button:disabled,
+.logout-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
 .button:disabled {
     opacity: 0.6;
     cursor: not-allowed;

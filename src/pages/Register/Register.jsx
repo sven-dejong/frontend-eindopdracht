@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import Button from '../../components/ui/Button/Button';
@@ -20,7 +20,15 @@ function Register() {
     });
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
-    const { register, loginUser } = useAuth();
+    const { register, loginUser, isAuthenticated } = useAuth();
+
+    // Redirect if already authenticated
+    useEffect(() => {
+        if (isAuthenticated) {
+            console.log('🔄 User already logged in, redirecting to homepage...');
+            navigate('/');
+        }
+    }, [isAuthenticated, navigate]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -45,7 +53,7 @@ function Register() {
 
     const validatePasswordRequirements = (password) => {
         const requirements = {
-            length: password.length >= 8,
+            length: password.length >= 6,
             uppercase: /[A-Z]/.test(password),
             number: /\d/.test(password),
             special: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)
@@ -154,6 +162,20 @@ function Register() {
         return `password-requirement ${passwordRequirements[requirement] ? 'valid' : 'invalid'}`;
     };
 
+    // Don't render the form if already authenticated (during redirect)
+    if (isAuthenticated) {
+        return (
+            <div className="register-container">
+                <div className="register-card">
+                    <div className="register-header">
+                        <h1>Already Logged In</h1>
+                        <p>Redirecting you to the homepage...</p>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="register-container">
             <div className="register-card">
@@ -213,7 +235,7 @@ function Register() {
                                 <span className="requirement-icon">
                                     {passwordRequirements.length ? '✓' : '✗'}
                                 </span>
-                                At least 8 characters
+                                At least 6 characters
                             </div>
                             <div className={getPasswordRequirementClass('uppercase')}>
                                 <span className="requirement-icon">

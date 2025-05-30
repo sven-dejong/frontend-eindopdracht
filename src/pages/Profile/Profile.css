@@ -1,0 +1,152 @@
+/* Profile.css - Clean and consistent styling */
+
+.profile-container {
+    min-height: 100vh;
+    background-image: url("/src/assets/home-background.webp");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.profile-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: -1;
+}
+
+.profile-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    padding: 0;
+    width: 100%;
+    max-width: 450px;
+    overflow: hidden;
+    position: relative;
+    z-index: 2;
+}
+
+.profile-header {
+    text-align: center;
+    padding: 40px 30px 30px;
+    background: white;
+}
+
+.profile-header h1 {
+    color: #333;
+    font-size: 28px;
+    font-weight: 600;
+    margin: 0 0 10px 0;
+}
+
+.profile-header p {
+    color: #666;
+    font-size: 16px;
+    margin: 0;
+}
+
+.profile-form {
+    padding: 0 30px 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group:last-of-type {
+    margin-bottom: 0;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.profile-input-display {
+    background: #f8f9fa;
+    border: 1px solid #e1e5e9;
+    border-radius: 6px;
+    padding: 12px 16px;
+    font-size: 16px;
+    color: #333;
+    min-height: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.profile-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+    padding-top: 20px;
+}
+
+.back-button,
+.logout-button {
+    flex: 1;
+    display: inline-block;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    margin: 0;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: Figtree, sans-serif;
+    font-size: 1rem;
+    border: none;
+    text-align: center;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .profile-container {
+        padding: 10px;
+        align-items: flex-start;
+        padding-top: 20px;
+    }
+
+    .profile-card {
+        max-width: 100%;
+    }
+
+    .profile-header {
+        padding: 30px 20px 20px;
+    }
+
+    .profile-form {
+        padding: 0 20px 20px;
+    }
+
+    .profile-actions {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-container {
+        padding: 5px;
+    }
+
+    .profile-header h1 {
+        font-size: 24px;
+    }
+
+    .profile-header p {
+        font-size: 14px;
+    }
+}
