@@ -9,21 +9,6 @@
     margin-bottom: 3rem;
 }
 
-/*.website-link {
-    display: inline-block;
-    color: var(--color-white);
-    font-weight: 600;
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    background-color: var(--color-tertiary);
-    border-radius: 4px;
-    transition: all 0.2s ease;
-}
-
-.website-link:hover {
-    background-color: var(--color-secondary);
-}*/
-
 .park-detail.loading,
 .park-detail.error {
     min-height: 50vh;

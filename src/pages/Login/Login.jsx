@@ -14,7 +14,6 @@ function Login() {
     const navigate = useNavigate();
     const { loginUser, isAuthenticated } = useAuth();
 
-    // Redirect if already authenticated
     useEffect(() => {
         if (isAuthenticated) {
             console.log('🔄 User already logged in, redirecting to homepage...');
@@ -86,7 +85,6 @@ function Login() {
         }
     };
 
-    // Don't render the form if already authenticated (during redirect)
     if (isAuthenticated) {
         return (
             <div className="login-container">

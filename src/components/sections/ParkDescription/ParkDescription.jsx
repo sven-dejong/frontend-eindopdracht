@@ -9,11 +9,8 @@ function ParkDescription({park, webcams}) {
 
     const handleViewWebcam = () => {
         if (webcams && webcams.length === 1) {
-            // If there's only one webcam, open it directly
             window.open(webcams[0].url, '_blank');
         } else if (webcams && webcams.length > 1) {
-            // If there are multiple webcams, open the first one
-            // You could enhance this later with a selection modal
             window.open(webcams[0].url, '_blank');
         }
     };

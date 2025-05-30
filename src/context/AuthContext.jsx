@@ -1,4 +1,3 @@
-// contexts/AuthContext.js
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -18,11 +17,9 @@ export const AuthProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-    // Base API configuration
     const API_BASE_URL = 'https://api.datavortex.nl/parkpal';
     const API_KEY = import.meta.env.VITE_X_API_KEY;
 
-    // Create axios instance for authenticated requests
     const authenticatedAxios = axios.create({
         baseURL: API_BASE_URL,
         headers: {
@@ -31,7 +28,6 @@ export const AuthProvider = ({ children }) => {
         }
     });
 
-    // Load user and token from localStorage on mount
     useEffect(() => {
         try {
             const savedToken = localStorage.getItem('parkpal-token');
@@ -45,7 +41,7 @@ export const AuthProvider = ({ children }) => {
                 setIsAuthenticated(true);
 
             } else {
-                console.log('📝 No saved authentication found');
+                console.log('No saved authentication found');
             }
         } catch (error) {
             console.error('Error loading authentication from localStorage:', error);
@@ -86,7 +82,6 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    // Register user - this works based on your testing
     const register = async (userData) => {
         try {
 
@@ -118,7 +113,6 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    // Login user - handle the JWT response correctly
     const loginUser = async (credentials) => {
         try {
 
@@ -133,14 +127,12 @@ export const AuthProvider = ({ children }) => {
                 timeout: 10000
             });
 
-            // The API returns {jwt: "token_string"}
             const jwtToken = response.data.jwt;
 
             if (!jwtToken) {
                 throw new Error('No JWT token received from server');
             }
 
-            // Decode the JWT to get user information
             try {
                 const tokenParts = jwtToken.split('.');
                 if (tokenParts.length !== 3) {
@@ -151,23 +143,22 @@ export const AuthProvider = ({ children }) => {
 
                 const userData = {
                     id: tokenPayload.userId,
-                    username: tokenPayload.sub, // 'sub' field contains username
+                    username: tokenPayload.sub,
                     role: tokenPayload.role,
                     applicationName: tokenPayload.applicationName
                 };
 
-                // Use the login function to save user data and token
                 login(userData, jwtToken);
 
                 return { userData, accessToken: jwtToken };
 
             } catch (decodeError) {
-                console.error('❌ Failed to decode JWT:', decodeError);
+                console.error('Failed to decode JWT:', decodeError);
                 throw new Error('Invalid JWT token received from server');
             }
 
         } catch (error) {
-            console.error('❌ Login error details:', error);
+            console.error('Login error details:', error);
 
             if (error.response?.status === 403) {
                 throw new Error('Access denied. Please check your API key or credentials.');
@@ -182,7 +173,6 @@ export const AuthProvider = ({ children }) => {
     };
 
     const value = {
-        // State
         user,
         token,
         isLoading,

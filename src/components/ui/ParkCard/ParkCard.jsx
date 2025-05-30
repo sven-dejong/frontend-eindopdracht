@@ -12,17 +12,10 @@ function ParkCard({ parkData }) {
     const isCurrentlyFavorited = isFavorited(parkData.parkCode);
 
     const handleFavoriteClick = (e) => {
-        e.preventDefault(); // Prevent navigation when clicking the heart
+        e.preventDefault();
         e.stopPropagation();
 
-        // Double check authentication before allowing toggle
-        if (!isAuthenticated) {
-            console.log('User not authenticated, cannot toggle favorite');
-            return;
-        }
-
         toggleFavorite(parkData);
-        console.log('Favorite toggled for:', parkData.name, 'New state:', !isCurrentlyFavorited);
     };
 
     return (
@@ -35,7 +28,6 @@ function ParkCard({ parkData }) {
                         <p className="park-type">{parkData.designation}</p>
                         <p className="park-location">{parkData.states}</p>
                     </div>
-                    {/* Only show favorite button when user is authenticated */}
                     {isAuthenticated && (
                         <button
                             className={`favorite-button ${isCurrentlyFavorited ? 'favorited' : ''}`}

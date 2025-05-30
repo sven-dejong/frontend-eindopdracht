@@ -1,4 +1,3 @@
-// contexts/FavoritesContext.js
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const FavoritesContext = createContext();
@@ -14,7 +13,6 @@ export const useFavorites = () => {
 export const FavoritesProvider = ({ children }) => {
     const [favorites, setFavorites] = useState([]);
 
-    // Load favorites from localStorage on mount
     useEffect(() => {
         try {
             const savedFavorites = localStorage.getItem('parkpal-favorites');
@@ -26,7 +24,6 @@ export const FavoritesProvider = ({ children }) => {
         }
     }, []);
 
-    // Save favorites to localStorage whenever favorites change
     useEffect(() => {
         try {
             localStorage.setItem('parkpal-favorites', JSON.stringify(favorites));
@@ -37,9 +34,8 @@ export const FavoritesProvider = ({ children }) => {
 
     const addFavorite = (park) => {
         setFavorites(prev => {
-            // Check if park is already in favorites
             if (prev.some(fav => fav.parkCode === park.parkCode)) {
-                return prev; // Already favorited, no change
+                return prev;
             }
             return [...prev, {
                 parkCode: park.parkCode,

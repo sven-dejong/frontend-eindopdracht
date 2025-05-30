@@ -12,11 +12,9 @@ function Favorites() {
     const { favorites, clearAllFavorites, getFavoriteCount } = useFavorites();
     const navigate = useNavigate();
 
-    // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
     const parksPerPage = 20; // Zelfde als AllParks component
 
-    // Redirect if not authenticated
     React.useEffect(() => {
         if (!isAuthenticated) {
             navigate('/login');
@@ -29,7 +27,6 @@ function Favorites() {
         );
         if (confirmClear) {
             clearAllFavorites();
-            // Reset naar eerste pagina na het wissen
             setCurrentPage(1);
         }
     };
@@ -38,7 +35,6 @@ function Favorites() {
         setCurrentPage(newPage);
     };
 
-    // Bereken welke parks getoond moeten worden op huidige pagina
     const getDisplayParks = () => {
         const startIndex = (currentPage - 1) * parksPerPage;
         const endIndex = startIndex + parksPerPage;
@@ -121,7 +117,6 @@ function Favorites() {
                             ))}
                         </div>
 
-                        {/* Voeg pagination toe als er meer dan parksPerPage favorites zijn */}
                         <Pagination
                             currentPage={currentPage}
                             totalItems={getFavoriteCount()}

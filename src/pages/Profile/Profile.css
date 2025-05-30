@@ -1,5 +1,3 @@
-/* Profile.css - Clean and consistent styling */
-
 .profile-container {
     min-height: 100vh;
     background-image: url("/src/assets/home-background.webp");
@@ -112,7 +110,6 @@
     text-align: center;
 }
 
-/* Responsive design */
 @media (max-width: 768px) {
     .profile-container {
         padding: 10px;
