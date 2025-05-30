@@ -1,5 +1,8 @@
-# Parks Application
+# ParkPal
 
+## GitHub Repository
+
+De volledige broncode is beschikbaar op [GitHub](https://github.com/sven-dejong/frontend-eindopdracht).
 ## Inleiding
 
 Ik heb een overzichtelijke webapplicatie geprobeerd te maken waarin informatie van alle National Parks staan. Amerika telt meer dan 60
