@@ -1,0 +1,140 @@
+/* Favorites.css */
+
+.favorites-container {
+    min-height: 100vh;
+    background-color: #f8f9fa;
+    padding: 60px 20px 40px; /* Extra top padding for fixed navigation */
+}
+
+.favorites-header {
+    max-width: 1200px;
+    margin: 0 auto 30px;
+    text-align: center;
+}
+
+.favorites-header h1 {
+    color: #333;
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.favorites-header p {
+    color: #666;
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+}
+
+.favorites-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.discover-button,
+.clear-button {
+    min-width: 160px;
+}
+
+.favorites-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.favorites-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+    padding: 20px 0;
+}
+
+/* Empty state styling */
+.empty-favorites {
+    text-align: center;
+    padding: 60px 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    margin: 40px auto;
+}
+
+.empty-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    opacity: 0.8;
+}
+
+.empty-favorites h2 {
+    color: #333;
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.empty-favorites p {
+    color: #666;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.explore-button {
+    min-width: 150px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .favorites-container {
+        padding: 100px 15px 20px;
+    }
+
+    .favorites-header h1 {
+        font-size: 2rem;
+    }
+
+    .favorites-header p {
+        font-size: 1rem;
+    }
+
+    .favorites-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .discover-button,
+    .clear-button {
+        width: 100%;
+        max-width: 250px;
+    }
+
+    .favorites-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 15px 0;
+    }
+
+    .empty-favorites {
+        padding: 40px 20px;
+        margin: 20px auto;
+    }
+
+    .empty-icon {
+        font-size: 3rem;
+    }
+
+    .empty-favorites h2 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .favorites-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .empty-favorites {
+        padding: 30px 15px;
+    }
+}
