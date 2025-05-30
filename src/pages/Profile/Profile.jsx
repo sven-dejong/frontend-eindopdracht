@@ -63,6 +63,14 @@ function Profile() {
 
                         <Button
                             variant="primary"
+                            onClick={() => navigate('/favorites')}
+                            className="back-button"
+                        >
+                            Favorites
+                        </Button>
+
+                        <Button
+                            variant="primary"
                             onClick={handleLogout}
                             className="logout-button"
                         >

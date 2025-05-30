@@ -52,6 +52,12 @@ function Navigation() {
                                         </NavLink>
                                     </Button>
                                     <Button className="primary">
+                                        <NavLink to="/favorites"
+                                                 className={({isActive}) => isActive ? "active-link" : "default-link"}>
+                                            Favorites
+                                        </NavLink>
+                                    </Button>
+                                    <Button className="primary">
                                         <NavLink to="/profile"
                                                  className={({isActive}) => isActive ? "active-link" : "default-link"}>
                                             Profile
@@ -72,13 +78,13 @@ function Navigation() {
                                             All Parks
                                         </NavLink>
                                     </Button>
-                                    <Button className="secondary">
+                                    <Button className="primary">
                                         <NavLink to="/login"
                                                  className={({isActive}) => isActive ? "active-link" : "default-link"}>
                                             Login
                                         </NavLink>
                                     </Button>
-                                    <Button className="primary">
+                                    <Button className="secondary">
                                         <NavLink to="/register"
                                                  className={({isActive}) => isActive ? "active-link" : "default-link"}>
                                             Register
